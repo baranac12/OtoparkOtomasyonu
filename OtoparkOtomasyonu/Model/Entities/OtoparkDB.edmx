@@ -1,0 +1,501 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="otobarkDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="tbl_arac">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="musteriId" Type="int" />
+          <Property Name="plaka" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="MarkaId" Type="int" Nullable="false" />
+          <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_islemler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="musteriId" Type="int" />
+          <Property Name="aracId" Type="int" Nullable="false" />
+          <Property Name="girisTarihi" Type="datetime" />
+          <Property Name="cikisTarihi" Type="datetime" />
+          <Property Name="Tutar" Type="money" />
+          <Property Name="Durum" Type="bit" Nullable="false" />
+          <Property Name="otoparkId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_kullanici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Parola" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="ParkAlanId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_marka">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MarkaAdi" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_musteri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Soyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="tbl_parkAlani">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="otoparkAlanAdi" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="kapasite" Type="int" Nullable="false" />
+          <Property Name="saat_1_ucret" Type="money" Nullable="false" />
+          <Property Name="saat_2_ucret" Type="money" Nullable="false" />
+          <Property Name="saat_3_ucret" Type="money" Nullable="false" />
+          <Property Name="saat_gunboyu_ucret" Type="money" Nullable="false" />
+          <Property Name="Durumu" Type="bit" Nullable="false" />
+          <Property Name="saat_1" Type="int" Nullable="false" />
+          <Property Name="saat_2" Type="int" Nullable="false" />
+          <Property Name="saat_3" Type="int" Nullable="false" />
+          <Property Name="kasa" Type="money" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_arac_tbl_marka">
+          <End Role="tbl_marka" Type="Self.tbl_marka" Multiplicity="1" />
+          <End Role="tbl_arac" Type="Self.tbl_arac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_marka">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_arac">
+              <PropertyRef Name="MarkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_arac_tbl_musteri">
+          <End Role="tbl_musteri" Type="Self.tbl_musteri" Multiplicity="0..1" />
+          <End Role="tbl_arac" Type="Self.tbl_arac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_musteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_arac">
+              <PropertyRef Name="musteriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_islemler_tbl_arac">
+          <End Role="tbl_arac" Type="Self.tbl_arac" Multiplicity="1" />
+          <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_arac">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="aracId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_islemler_tbl_musteri">
+          <End Role="tbl_musteri" Type="Self.tbl_musteri" Multiplicity="0..1" />
+          <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_musteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="musteriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_islemler_tbl_parkAlani">
+          <End Role="tbl_parkAlani" Type="Self.tbl_parkAlani" Multiplicity="1" />
+          <End Role="tbl_islemler" Type="Self.tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_parkAlani">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="otoparkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_kullanici_tbl_parkAlani">
+          <End Role="tbl_parkAlani" Type="Self.tbl_parkAlani" Multiplicity="1" />
+          <End Role="tbl_kullanici" Type="Self.tbl_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_parkAlani">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_kullanici">
+              <PropertyRef Name="ParkAlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="otobarkDBModelStoreContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_arac" EntityType="Self.tbl_arac" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_islemler" EntityType="Self.tbl_islemler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_kullanici" EntityType="Self.tbl_kullanici" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_marka" EntityType="Self.tbl_marka" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_musteri" EntityType="Self.tbl_musteri" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_parkAlani" EntityType="Self.tbl_parkAlani" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_arac_tbl_marka" Association="Self.FK_tbl_arac_tbl_marka">
+            <End Role="tbl_marka" EntitySet="tbl_marka" />
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_arac_tbl_musteri" Association="Self.FK_tbl_arac_tbl_musteri">
+            <End Role="tbl_musteri" EntitySet="tbl_musteri" />
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_arac" Association="Self.FK_tbl_islemler_tbl_arac">
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_musteri" Association="Self.FK_tbl_islemler_tbl_musteri">
+            <End Role="tbl_musteri" EntitySet="tbl_musteri" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_parkAlani" Association="Self.FK_tbl_islemler_tbl_parkAlani">
+            <End Role="tbl_parkAlani" EntitySet="tbl_parkAlani" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_kullanici_tbl_parkAlani" Association="Self.FK_tbl_kullanici_tbl_parkAlani">
+            <End Role="tbl_parkAlani" EntitySet="tbl_parkAlani" />
+            <End Role="tbl_kullanici" EntitySet="tbl_kullanici" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="otobarkDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="tbl_arac">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="musteriId" Type="Int32" />
+          <Property Name="plaka" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MarkaId" Type="Int32" Nullable="false" />
+          <Property Name="Model" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_marka" Relationship="Self.FK_tbl_arac_tbl_marka" FromRole="tbl_arac" ToRole="tbl_marka" />
+          <NavigationProperty Name="tbl_musteri" Relationship="Self.FK_tbl_arac_tbl_musteri" FromRole="tbl_arac" ToRole="tbl_musteri" />
+          <NavigationProperty Name="tbl_islemler" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_arac" FromRole="tbl_arac" ToRole="tbl_islemler" />
+        </EntityType>
+        <EntityType Name="tbl_islemler">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="musteriId" Type="Int32" />
+          <Property Name="aracId" Type="Int32" Nullable="false" />
+          <Property Name="girisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="cikisTarihi" Type="DateTime" Precision="3" />
+          <Property Name="Tutar" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Durum" Type="Boolean" Nullable="false" />
+          <Property Name="otoparkId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_parkAlani" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_parkAlani" FromRole="tbl_islemler" ToRole="tbl_parkAlani" />
+          <NavigationProperty Name="tbl_arac" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_arac" FromRole="tbl_islemler" ToRole="tbl_arac" />
+          <NavigationProperty Name="tbl_musteri" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_musteri" FromRole="tbl_islemler" ToRole="tbl_musteri" />
+        </EntityType>
+        <EntityType Name="tbl_kullanici">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Soyad" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KullaniciAdi" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Parola" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ParkAlanId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_parkAlani" Relationship="Self.FK_tbl_kullanici_tbl_parkAlani" FromRole="tbl_kullanici" ToRole="tbl_parkAlani" />
+        </EntityType>
+        <EntityType Name="tbl_marka">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MarkaAdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="tbl_arac" Relationship="Self.FK_tbl_arac_tbl_marka" FromRole="tbl_marka" ToRole="tbl_arac" />
+        </EntityType>
+        <EntityType Name="tbl_musteri">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tbl_arac" Relationship="Self.FK_tbl_arac_tbl_musteri" FromRole="tbl_musteri" ToRole="tbl_arac" />
+          <NavigationProperty Name="tbl_islemler" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_musteri" FromRole="tbl_musteri" ToRole="tbl_islemler" />
+        </EntityType>
+        <EntityType Name="tbl_parkAlani">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="otoparkAlanAdi" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="kapasite" Type="Int32" Nullable="false" />
+          <Property Name="saat_1_ucret" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="saat_2_ucret" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="saat_3_ucret" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="saat_gunboyu_ucret" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Durumu" Type="Boolean" Nullable="false" />
+          <Property Name="saat_1" Type="Int32" Nullable="false" />
+          <Property Name="saat_2" Type="Int32" Nullable="false" />
+          <Property Name="saat_3" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_kullanici" Relationship="Self.FK_tbl_kullanici_tbl_parkAlani" FromRole="tbl_parkAlani" ToRole="tbl_kullanici" />
+          <Property Name="kasa" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="tbl_islemler" Relationship="otobarkDBModel.FK_tbl_islemler_tbl_parkAlani" FromRole="tbl_parkAlani" ToRole="tbl_islemler" />
+        </EntityType>
+        <Association Name="FK_tbl_arac_tbl_marka">
+          <End Role="tbl_marka" Type="Self.tbl_marka" Multiplicity="1" />
+          <End Role="tbl_arac" Type="Self.tbl_arac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_marka">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_arac">
+              <PropertyRef Name="MarkaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_arac_tbl_musteri">
+          <End Role="tbl_musteri" Type="Self.tbl_musteri" Multiplicity="0..1" />
+          <End Role="tbl_arac" Type="Self.tbl_arac" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_musteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_arac">
+              <PropertyRef Name="musteriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_kullanici_tbl_parkAlani">
+          <End Role="tbl_parkAlani" Type="Self.tbl_parkAlani" Multiplicity="1" />
+          <End Role="tbl_kullanici" Type="Self.tbl_kullanici" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_parkAlani">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_kullanici">
+              <PropertyRef Name="ParkAlanId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="otobarkDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="tbl_arac" EntityType="Self.tbl_arac" />
+          <EntitySet Name="tbl_islemler" EntityType="Self.tbl_islemler" />
+          <EntitySet Name="tbl_kullanici" EntityType="Self.tbl_kullanici" />
+          <EntitySet Name="tbl_marka" EntityType="Self.tbl_marka" />
+          <EntitySet Name="tbl_musteri" EntityType="Self.tbl_musteri" />
+          <EntitySet Name="tbl_parkAlani" EntityType="Self.tbl_parkAlani" />
+          <AssociationSet Name="FK_tbl_arac_tbl_marka" Association="Self.FK_tbl_arac_tbl_marka">
+            <End Role="tbl_marka" EntitySet="tbl_marka" />
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_arac_tbl_musteri" Association="Self.FK_tbl_arac_tbl_musteri">
+            <End Role="tbl_musteri" EntitySet="tbl_musteri" />
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_kullanici_tbl_parkAlani" Association="Self.FK_tbl_kullanici_tbl_parkAlani">
+            <End Role="tbl_parkAlani" EntitySet="tbl_parkAlani" />
+            <End Role="tbl_kullanici" EntitySet="tbl_kullanici" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_parkAlani" Association="otobarkDBModel.FK_tbl_islemler_tbl_parkAlani">
+            <End Role="tbl_parkAlani" EntitySet="tbl_parkAlani" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_arac" Association="otobarkDBModel.FK_tbl_islemler_tbl_arac">
+            <End Role="tbl_arac" EntitySet="tbl_arac" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_islemler_tbl_musteri" Association="otobarkDBModel.FK_tbl_islemler_tbl_musteri">
+            <End Role="tbl_musteri" EntitySet="tbl_musteri" />
+            <End Role="tbl_islemler" EntitySet="tbl_islemler" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_tbl_islemler_tbl_parkAlani">
+          <End Type="otobarkDBModel.tbl_parkAlani" Role="tbl_parkAlani" Multiplicity="1" />
+          <End Type="otobarkDBModel.tbl_islemler" Role="tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_parkAlani">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="otoparkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_islemler_tbl_arac">
+          <End Type="otobarkDBModel.tbl_arac" Role="tbl_arac" Multiplicity="1" />
+          <End Type="otobarkDBModel.tbl_islemler" Role="tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_arac">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="aracId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_islemler_tbl_musteri">
+          <End Type="otobarkDBModel.tbl_musteri" Role="tbl_musteri" Multiplicity="0..1" />
+          <End Type="otobarkDBModel.tbl_islemler" Role="tbl_islemler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_musteri">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_islemler">
+              <PropertyRef Name="musteriId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="otobarkDBModelStoreContainer" CdmEntityContainer="otobarkDBEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="otobarkDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_arac">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_arac">
+              <MappingFragment StoreEntitySet="tbl_arac">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="musteriId" ColumnName="musteriId" />
+                <ScalarProperty Name="plaka" ColumnName="plaka" />
+                <ScalarProperty Name="MarkaId" ColumnName="MarkaId" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_islemler">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_islemler">
+              <MappingFragment StoreEntitySet="tbl_islemler">
+                <ScalarProperty Name="otoparkId" ColumnName="otoparkId" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="musteriId" ColumnName="musteriId" />
+                <ScalarProperty Name="aracId" ColumnName="aracId" />
+                <ScalarProperty Name="girisTarihi" ColumnName="girisTarihi" />
+                <ScalarProperty Name="cikisTarihi" ColumnName="cikisTarihi" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_kullanici">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_kullanici">
+              <MappingFragment StoreEntitySet="tbl_kullanici">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="KullaniciAdi" ColumnName="KullaniciAdi" />
+                <ScalarProperty Name="Parola" ColumnName="Parola" />
+                <ScalarProperty Name="ParkAlanId" ColumnName="ParkAlanId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_marka">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_marka">
+              <MappingFragment StoreEntitySet="tbl_marka">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="MarkaAdi" ColumnName="MarkaAdi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_musteri">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_musteri">
+              <MappingFragment StoreEntitySet="tbl_musteri">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Soyad" ColumnName="Soyad" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_parkAlani">
+            <EntityTypeMapping TypeName="otobarkDBModel.tbl_parkAlani">
+              <MappingFragment StoreEntitySet="tbl_parkAlani">
+                <ScalarProperty Name="kasa" ColumnName="kasa" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="otoparkAlanAdi" ColumnName="otoparkAlanAdi" />
+                <ScalarProperty Name="kapasite" ColumnName="kapasite" />
+                <ScalarProperty Name="saat_1_ucret" ColumnName="saat_1_ucret" />
+                <ScalarProperty Name="saat_2_ucret" ColumnName="saat_2_ucret" />
+                <ScalarProperty Name="saat_3_ucret" ColumnName="saat_3_ucret" />
+                <ScalarProperty Name="saat_gunboyu_ucret" ColumnName="saat_gunboyu_ucret" />
+                <ScalarProperty Name="Durumu" ColumnName="Durumu" />
+                <ScalarProperty Name="saat_1" ColumnName="saat_1" />
+                <ScalarProperty Name="saat_2" ColumnName="saat_2" />
+                <ScalarProperty Name="saat_3" ColumnName="saat_3" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
