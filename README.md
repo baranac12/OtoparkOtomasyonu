@@ -5,7 +5,7 @@
 
 ### Tanıtım Video :
 --------
-[![](https://i.ytimg.com/an_webp/7LMCB7H2UlY/mqdefault_6s.webp?du=3000&sqp=CMjO6IYG&rs=AOn4CLBByej46jGrgwuCoekHz8k-UqSBpA)](https://www.youtube.com/watch?v=7LMCB7H2UlY)
+[![](https://i.ytimg.com/an_webp/7LMCB7H2UlY/mqdefault_6s.webp?du=3000&sqp=CPiX64YG&rs=AOn4CLCTQMRvUwtjkn--ZqnVMTLzZes8Xw)](https://www.youtube.com/watch?v=7LMCB7H2UlY)
 
 
 
